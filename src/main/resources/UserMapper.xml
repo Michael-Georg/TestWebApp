@@ -1,0 +1,58 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mappers.UserMapper">
+
+    <resultMap type="com.example.entities.UserWithProducts" id="entity">
+        <id column="id" property="id"/>
+        <collection property="products" column="id" select="getProducts"/>
+    </resultMap>
+
+    <resultMap id="product" type="com.example.entities.Product">
+        <result property="id" column="product_id"/>
+    </resultMap>
+
+    <select id="getProducts" resultMap="product">
+        SELECT
+            name,
+            date,
+            product_id
+        FROM products
+        WHERE user_id = #{id}
+    </select>
+
+    <select id="getByEmail" resultMap="entity">
+        SELECT
+            surname,
+            email,
+            id,
+            name
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+    <select id="getAll" resultType="com.example.entities.UserEntity">
+        SELECT
+            name,
+            surname,
+            id,
+            email
+        FROM users
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO users (name, surname, email)
+        VALUES (#{name}, #{surname}, #{email})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.example.entities.UserEntity">
+        UPDATE users
+        SET name = #{name}, surname = #{surname}, email = #{email}
+        WHERE id = #{id}
+    </update>
+</mapper>
