@@ -36,15 +36,14 @@ Ext.define('App.UserController', {
                 'Content-Type': 'application/json'
             },
             params: Ext.encode(values),
-            success: function (response, options) {
-                var data = Ext.decode(response.responseText);
+            success: function (response) {
                 var store = Ext.widget('userList').getStore();
                 store.load();
                 Ext.Msg.alert('Success', 'User information changed')
             },
-            failure: function (response, options) {
-                var msg = Ext.decode(response.responseText);
-                Ext.Msg.alert('Error', msg);
+            failure: function (response) {
+                var data = Ext.decode(response.responseText);
+                Ext.Msg.alert('Error', data.msg);
             }
         });
     },
@@ -59,14 +58,13 @@ Ext.define('App.UserController', {
                 'Content-Type': 'application/json'
             },
             params: values,
-            success: function (response, options) {
-                var data = Ext.decode(response.responseText);
+            success: function (response) {
                 var store = Ext.widget('userList').getStore();
                 store.load();
                 win.close();
                 Ext.Msg.alert('Success', 'New user successfully added');
             },
-            failure: function (response, options) {
+            failure: function (response) {
                 var data = Ext.decode(response.responseText);
                 Ext.Msg.alert('Error', data.msg);
             }
@@ -85,7 +83,6 @@ Ext.define('App.UserController', {
             method: 'GET',
             params: {id: id},
             success: function (response) {
-                var data = Ext.decode(response.responseText);
                 var store = Ext.widget('userList').getStore();
                 var record = store.getById(id);
                 store.remove(record);
@@ -93,8 +90,8 @@ Ext.define('App.UserController', {
                 Ext.Msg.alert('Success', 'User deleted');
             },
             failure: function (response) {
-                var msg = Ext.decode(response.responseText).msg;
-                Ext.Msg.alert('Error', msg);
+                var data = Ext.decode(response.responseText);
+                Ext.Msg.alert('Error', data.msg);
             }
         });
     },

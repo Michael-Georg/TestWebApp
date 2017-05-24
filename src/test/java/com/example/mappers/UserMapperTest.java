@@ -1,6 +1,5 @@
 package com.example.mappers;
 
-import com.example.controllers.UsersController;
 import com.example.entities.UserEntity;
 import com.example.entities.UserWithProducts;
 import org.junit.After;
@@ -24,9 +23,6 @@ public class UserMapperTest {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private UsersController usersController;
 
     @Before
     public void before() {

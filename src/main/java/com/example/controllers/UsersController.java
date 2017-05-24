@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 import static com.example.controllers.UsersController.Result.run;
 
-@RestController
+@Controller
 @RequestMapping(value = URLParams.USERS)
 public class UsersController {
 
@@ -46,11 +46,13 @@ public class UsersController {
     }
 
     @RequestMapping(value = URLParams.GET_ALL, method = RequestMethod.GET)
+    @ResponseBody
     public final Result<List<UserEntity>> getAll() {
         return run(() -> userService.getAll());
     }
 
     @RequestMapping(value = URLParams.UPDATE, method = RequestMethod.POST)
+    @ResponseBody
     public final Result<Void> update(@RequestBody final UserEntity entity) {
         return run(() -> {
             userService.update(entity);
@@ -59,16 +61,19 @@ public class UsersController {
     }
 
     @RequestMapping(value = URLParams.CREATE, method = RequestMethod.POST)
+    @ResponseBody
     public Result<UserEntity> create(@RequestBody final UserEntity entity) {
         return run(() -> userService.create(entity));
     }
 
     @RequestMapping(value = URLParams.GET, method = RequestMethod.GET)
+    @ResponseBody
     public final Result<UserEntity> getByEmail(@RequestParam(value = "email") String email) {
         return run(() -> userService.get(email));
     }
 
     @RequestMapping(value = URLParams.DELETE, method = RequestMethod.GET)
+    @ResponseBody
     public Result<Void> delete(@RequestParam(value = "id") Integer id) {
         return run(() -> {
             userService.delete(id);
